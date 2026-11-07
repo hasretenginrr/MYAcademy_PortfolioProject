@@ -24,8 +24,6 @@ Ana sitedeki tüm bölümler (Hakkımda, Yetenekler, Deneyim, Projeler, Eğitim,
 
 <img width="1872" height="717" alt="Ekran görüntüsü 2026-11-07 234948" src="https://github.com/user-attachments/assets/2bab51d5-1a5c-4921-a5af-305314f50809" />
 
-<img width="1872" height="897" alt="Ekran görüntüsü 2026-11-07 235007" src="https://github.com/user-attachments/assets/78bdaf13-ea50-4499-be4e-59939e5ef80c" />
-
 <img width="1866" height="822" alt="Ekran görüntüsü 2026-11-07 235131" src="https://github.com/user-attachments/assets/d5360218-da53-49ac-8759-bff25aff0345" />
 
 | Proje Yönetimi | Admin Panel
@@ -45,6 +43,12 @@ Ana sitedeki tüm bölümler (Hakkımda, Yetenekler, Deneyim, Projeler, Eğitim,
 <img width="1892" height="810" alt="Ekran görüntüsü 2026-11-07 235243" src="https://github.com/user-attachments/assets/7ba91ede-8944-45f2-a8a3-527abefbe8b4" />
 
 <img width="1886" height="765" alt="Ekran görüntüsü 2026-11-07 235250" src="https://github.com/user-attachments/assets/f026ee87-4084-4f80-8c04-ae10e63d1398" />
+<img width="1890" height="882" alt="Ekran görüntüsü 2026-11-07 235349" src="https://github.com/user-attachments/assets/13caeffc-34e0-4d40-a3e3-154fdecee6f7" />
+<img width="1886" height="868" alt="Ekran görüntüsü 2026-11-07 235314" src="https://github.com/user-attachments/assets/ce280b58-d13f-477c-901f-81f9ded53213" />
+<img width="1490" height="631" alt="Ekran görüntüsü 2026-11-07 235355" src="https://github.com/user-attachments/assets/42c92618-164c-4cdb-abae-19ad06ed46e0" />
+<img width="1490" height="631" alt="Ekran görüntüsü 2026-11-07 235355" src="https://github.com/user-attachments/assets/80a3ae7d-3e52-42b3-898e-e7dca8247d50" />
+<img width="1877" height="896" alt="Ekran görüntüsü 2026-11-07 235256" src="https://github.com/user-attachments/assets/f543e36c-5bcf-4c88-bea8-036c976493d4" />
+
 
 ---
 
