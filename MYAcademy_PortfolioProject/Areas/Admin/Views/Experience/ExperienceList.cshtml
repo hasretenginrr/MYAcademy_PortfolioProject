@@ -1,0 +1,231 @@
+﻿@model List<MYAcademy_PortfolioProject.Entities.Experience>
+
+@{
+    ViewData["Title"] = "ExperienceList";
+    Layout = "~/Areas/Admin/Views/AdminLayout/Index.cshtml";
+
+    var total = Model.Count;
+    var active = Model.Count(x => x.IsActive);
+    var passive = total - active;
+    var typeCount = Model.Select(x => x.CategoryName).Distinct().Count();
+}
+
+<main class="page-content-area">
+
+    <div class="content-header-row">
+        <div>
+            <h1 class="page-title">Deneyimlerim Listesi</h1>
+            <p class="page-subtitle">Portfolyo sitenizde yer alacak deneyim içeriklerini buradan yönetebilirsiniz.</p>
+        </div>
+        <div class="header-actions">
+            <button class="btn-pastel-secondary" id="btnExport" type="button">
+                <i class="bi bi-download"></i>
+                <span>Dışa Aktar</span>
+            </button>
+            <a href="#quickCreate" class="btn-pastel-primary">
+                <i class="bi bi-plus-circle-fill"></i>
+                <span>Yeni Deneyim Ekle</span>
+            </a>
+        </div>
+    </div>
+
+    <div class="stats-row">
+        <div class="stat-card">
+            <div class="stat-icon-wrapper icon-green"><i class="bi bi-briefcase"></i></div>
+            <div class="stat-content">
+                <span class="stat-label">Toplam Deneyim</span>
+                <h3 class="stat-value">@total</h3>
+            </div>
+        </div>
+        <div class="stat-card">
+            <div class="stat-icon-wrapper icon-blue"><i class="bi bi-check2-circle"></i></div>
+            <div class="stat-content">
+                <span class="stat-label">Aktif Kayıt</span>
+                <h3 class="stat-value">@active</h3>
+            </div>
+        </div>
+        <div class="stat-card">
+            <div class="stat-icon-wrapper icon-beige"><i class="bi bi-pause-circle"></i></div>
+            <div class="stat-content">
+                <span class="stat-label">Pasif Kayıt</span>
+                <h3 class="stat-value">@passive</h3>
+            </div>
+        </div>
+        <div class="stat-card">
+            <div class="stat-icon-wrapper icon-purple"><i class="bi bi-diagram-3"></i></div>
+            <div class="stat-content">
+                <span class="stat-label">Çalışma Türü Sayısı</span>
+                <h3 class="stat-value">@typeCount</h3>
+            </div>
+        </div>
+    </div>
+
+    <div class="data-table-card">
+
+        <div class="table-filter-bar">
+            <div class="filters-left-group">
+                <div class="filter-search-box">
+                    <i class="bi bi-search"></i>
+                    <input type="text" id="tableSearchInput" placeholder="Başlığa veya şirkete göre ara...">
+                </div>
+
+                <select class="filter-select" id="statusFilterSelect">
+                    <option value="all">Durum Seçiniz (Tümü)</option>
+                    <option value="Aktif">Aktif</option>
+                    <option value="Pasif">Pasif</option>
+                </select>
+
+                <select class="filter-select" id="sortSelect">
+                    <option value="id-asc">Sıralama: Eklenme (Eskiden yeniye)</option>
+                    <option value="id-desc">Sıralama: Eklenme (Yeniden eskiye)</option>
+                    <option value="title-asc">Başlık (A-Z)</option>
+                    <option value="company-asc">Şirket (A-Z)</option>
+                </select>
+            </div>
+
+            <div class="filters-right-group">
+                <button class="btn-table-util" id="btnRefreshTable" title="Filtreleri Temizle" type="button">
+                    <i class="bi bi-arrow-clockwise"></i>
+                    <span class="d-none d-md-inline">Temizle</span>
+                </button>
+                <a href="#quickCreate" class="btn-pastel-primary" style="padding: 7px 14px; font-size: 0.8rem;">
+                    <i class="bi bi-plus-lg"></i>
+                    <span>Ekle</span>
+                </a>
+            </div>
+        </div>
+
+        <div class="table-responsive-wrapper">
+            <table class="custom-admin-table" id="experienceTable">
+                <thead>
+                    <tr>
+                        <th style="width: 44px; text-align: center;">
+                            <input type="checkbox" class="custom-checkbox" id="selectAllCheckbox" title="Tümünü Seç">
+                        </th>
+                        <th style="width: 60px;">ID</th>
+                        <th>Deneyim Başlığı</th>
+                        <th>Kurum / Şirket</th>
+                        <th>Çalışma Türü</th>
+                        <th>Durum</th>
+                        <th style="text-align: right; width: 140px;">İşlemler</th>
+                    </tr>
+                </thead>
+                <tbody id="experienceTableBody">
+                    @foreach (var item in Model)
+                    {
+                        <tr data-id="@item.ExperienceId"
+                            data-status="@(item.IsActive ? "Aktif" : "Pasif")"
+                            data-title="@item.Title"
+                            data-company="@item.CompanyName"
+                            data-type="@item.CategoryName">
+                            <td style="text-align: center;">
+                                <input type="checkbox" class="custom-checkbox row-select-checkbox">
+                            </td>
+                            <td class="col-id">#@item.ExperienceId.ToString("00")</td>
+                            <td>
+                                <div class="experience-title-cell">
+                                    <div class="exp-icon-bullet">
+                                        <i class="bi bi-briefcase"></i>
+                                    </div>
+                                    <div>
+                                        <span class="exp-title-text">@item.Title</span>
+                                        <small class="text-muted d-block" style="font-size:0.75rem; max-width:360px; white-space:nowrap; overflow:hidden; text-overflow:ellipsis;">@item.Description</small>
+                                    </div>
+                                </div>
+                            </td>
+                            <td>
+                                <div class="company-cell">
+                                    <i class="bi bi-building company-badge-icon"></i>
+                                    <span>@item.CompanyName</span>
+                                </div>
+                            </td>
+                            <td><span class="work-type-badge">@item.CategoryName</span></td>
+                            <td>
+                                @if (item.IsActive)
+                                {
+                                    <span class="status-pill status-active">Aktif</span>
+                                }
+                                else
+                                {
+                                    <span class="status-pill status-passive">Pasif</span>
+                                }
+                            </td>
+                            <td style="text-align: right;">
+                                <div class="row-actions-group justify-content-end">
+                                    <a href="/Admin/Experience/UpdateExperience/@item.ExperienceId" class="btn-action-icon btn-edit" title="Güncelle">
+                                        <i class="bi bi-pencil-square"></i>
+                                    </a>
+                                    <a href="/Admin/Experience/DeleteExperience/@item.ExperienceId" class="btn-action-icon btn-delete" title="Sil"
+                                       onclick="return confirm('Bu deneyim kaydını silmek istediğinize emin misiniz?');">
+                                        <i class="bi bi-trash3"></i>
+                                    </a>
+                                </div>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+
+        <div class="table-footer-area">
+            <div class="pagination-counter">
+                Toplam <strong>@total</strong> kayıt listeleniyor
+            </div>
+        </div>
+    </div>
+
+    <!-- Hızlı Ekleme Paneli -->
+    <div class="side-drawer-card" id="quickCreate">
+        <div class="drawer-header">
+            <div>
+                <h3 class="drawer-title">
+                    <i class="bi bi-plus-square"></i>
+                    Hızlı Deneyim Oluşturma Paneli
+                </h3>
+                <span class="text-secondary" style="font-size:0.8rem;">Yeni deneyim kaydı ekleyin; kayıt doğrudan veritabanına yazılır.</span>
+            </div>
+        </div>
+
+        <form action="/Admin/Experience/CreateExperience" method="post">
+            <div class="row g-3">
+                <div class="col-md-6">
+                    <label class="form-label-custom">Deneyim Başlığı <span class="required-star">*</span></label>
+                    <input type="text" name="Title" class="form-control-custom" placeholder="Örn: Yazılım Stajyeri" required>
+                </div>
+                <div class="col-md-6">
+                    <label class="form-label-custom">Şirket / Kurum Adı <span class="required-star">*</span></label>
+                    <input type="text" name="CompanyName" class="form-control-custom" placeholder="Örn: Acme Tech Ltd." required>
+                </div>
+                <div class="col-md-6">
+                    <label class="form-label-custom">Çalışma Türü</label>
+                    <select name="CategoryName" class="form-control-custom">
+                        <option value="Tam Zamanlı">Tam Zamanlı</option>
+                        <option value="Yarı Zamanlı">Yarı Zamanlı</option>
+                        <option value="Hibrit">Hibrit</option>
+                        <option value="Uzaktan">Uzaktan</option>
+                        <option value="Stajyer">Stajyer</option>
+                    </select>
+                </div>
+                <div class="col-md-6">
+                    <label class="form-label-custom">Durum</label>
+                    <select name="IsActive" class="form-control-custom">
+                        <option value="true">Aktif (Portfolyoda Göster)</option>
+                        <option value="false">Pasif (Gizli)</option>
+                    </select>
+                </div>
+                <div class="col-12">
+                    <label class="form-label-custom">Açıklama / Görev Kapsamı</label>
+                    <textarea name="Description" class="form-control-custom" rows="3" placeholder="Üstlenilen sorumluluklar, kullanılan teknolojiler ve başarılar..."></textarea>
+                </div>
+                <div class="col-12 d-flex justify-content-end gap-2">
+                    <button type="reset" class="btn-pastel-secondary" style="padding: 8px 14px;">Temizle</button>
+                    <button type="submit" class="btn-pastel-primary" style="padding: 8px 20px;">
+                        <i class="bi bi-check-lg"></i>
+                        <span>Kaydet</span>
+                    </button>
+                </div>
+            </div>
+        </form>
+    </div>
+
+</main>

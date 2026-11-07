@@ -1,0 +1,44 @@
+﻿@model SkillItem
+
+@{
+    ViewData["Title"] = "CreateSkillItem";
+    Layout = "~/Areas/Admin/Views/AdminLayout/Index.cshtml";
+}
+
+<main class="page-content-area">
+
+    <div class="content-header-row">
+        <div>
+            <h1 class="page-title">Yeni Yetenek Öğesi Ekle</h1>
+        </div>
+        <div class="header-actions">
+            <a href="/Admin/SkillItem/SkillItemList" class="btn-pastel-secondary">
+                <i class="bi bi-arrow-left"></i>
+                <span>Listeye Dön</span>
+            </a>
+        </div>
+    </div>
+
+    <div class="side-drawer-card">
+        <form method="post">
+            <div class="row g-3">
+                <div class="col-md-6">
+                    <label class="form-label-custom">Öğe Adı</label>
+                    <input type="text" asp-for="SkillItemTitle" class="form-control-custom" placeholder="Örn: ASP.NET Core" />
+                </div>
+                <div class="col-md-6">
+                    <label class="form-label-custom">Bağlı Olduğu Yetenek</label>
+                    <select asp-for="SkillId" asp-items="@((List<SelectListItem>)ViewBag.Skills)" class="form-control-custom"></select>
+                </div>
+                <div class="col-12 d-flex justify-content-end gap-2">
+                    <a href="/Admin/SkillItem/SkillItemList" class="btn-pastel-secondary" style="padding: 8px 14px;">Vazgeç</a>
+                    <button type="submit" class="btn-pastel-primary" style="padding: 8px 20px;">
+                        <i class="bi bi-check-lg"></i>
+                        <span>Öğeyi Kaydet</span>
+                    </button>
+                </div>
+            </div>
+        </form>
+    </div>
+
+</main>

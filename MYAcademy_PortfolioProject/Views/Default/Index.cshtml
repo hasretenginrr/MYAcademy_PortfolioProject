@@ -1,0 +1,42 @@
+﻿
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+<html lang="tr">
+
+    @await Component.InvokeAsync("_DefaultHeaderComponentPartial")
+
+<body>
+
+    @await Component.InvokeAsync("_DefaultNavbarComponentPartial")
+
+
+  <main>
+        @await Component.InvokeAsync("_DefaultHeroSectionComponentPartial")
+
+
+        @await Component.InvokeAsync("_DefaultAboutComponentPartial")
+
+    
+        @await Component.InvokeAsync("_DefaultSkillsComponentPartial")
+
+    
+        @await Component.InvokeAsync("_DefaultExperienceComponentPartial")
+
+
+        @await Component.InvokeAsync("_DefaultProjectComponentPartial")
+
+        @await Component.InvokeAsync("_DefaultEducationComponentPartial")
+
+        @await Component.InvokeAsync("_DefaultContactComponentPartial")
+
+  </main>
+
+    @await Component.InvokeAsync("_DefaultFooterComponentPartial")
+
+    @await Component.InvokeAsync("_DefaultScriptComponentPartial")
+
+</body>
+</html>

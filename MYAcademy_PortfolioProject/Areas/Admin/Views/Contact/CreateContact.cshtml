@@ -1,0 +1,88 @@
+﻿@model MYAcademy_PortfolioProject.Entities.Contact
+
+@{
+    ViewData["Title"] = "CreateContact";
+    Layout = "~/Areas/Admin/Views/AdminLayout/Index.cshtml";
+}
+
+<main class="page-content-area">
+
+    <div class="content-header-row">
+        <div>
+            <h1 class="page-title">Yeni İletişim Bilgisi</h1>
+            <p class="page-subtitle">İletişim bilgilerini ve sosyal medya bağlantılarını ekleyin.</p>
+        </div>
+        <div class="header-actions">
+            <a href="/Admin/Contact/ContactList" class="btn-pastel-secondary">
+                <i class="bi bi-arrow-left"></i>
+                <span>Listeye Dön</span>
+            </a>
+        </div>
+    </div>
+
+    <div class="side-drawer-card">
+        <form method="post">
+            <div asp-validation-summary="ModelOnly" class="text-danger small mb-2"></div>
+
+            <div class="row g-3">
+                <div class="col-md-6">
+                    <label class="form-label-custom">Başlık <span class="required-star">*</span></label>
+                    <input asp-for="Title" class="form-control-custom" />
+                    <span asp-validation-for="Title" class="text-danger small"></span>
+                </div>
+                <div class="col-md-6">
+                    <label class="form-label-custom">E-posta <span class="required-star">*</span></label>
+                    <input asp-for="Email" type="email" class="form-control-custom" />
+                    <span asp-validation-for="Email" class="text-danger small"></span>
+                </div>
+                <div class="col-12">
+                    <label class="form-label-custom">Açıklama <span class="required-star">*</span></label>
+                    <textarea asp-for="Description" class="form-control-custom" rows="3"></textarea>
+                    <span asp-validation-for="Description" class="text-danger small"></span>
+                </div>
+                <div class="col-md-6">
+                    <label class="form-label-custom">Telefon <span class="required-star">*</span></label>
+                    <input asp-for="PhoneNumber" type="tel" class="form-control-custom" />
+                    <span asp-validation-for="PhoneNumber" class="text-danger small"></span>
+                </div>
+                <div class="col-md-6">
+                    <label class="form-label-custom">Lokasyon <span class="required-star">*</span></label>
+                    <input asp-for="Location" class="form-control-custom" />
+                    <span asp-validation-for="Location" class="text-danger small"></span>
+                </div>
+
+                <div class="col-12"><hr class="my-1" /></div>
+
+                <div class="col-md-6">
+                    <label class="form-label-custom"><i class="bi bi-github"></i> GitHub</label>
+                    <input asp-for="GithubUrl" class="form-control-custom" placeholder="https://github.com/kullanici" />
+                    <span asp-validation-for="GithubUrl" class="text-danger small"></span>
+                </div>
+                <div class="col-md-6">
+                    <label class="form-label-custom"><i class="bi bi-linkedin"></i> LinkedIn</label>
+                    <input asp-for="LinkedinUrl" class="form-control-custom" placeholder="https://linkedin.com/in/kullanici" />
+                    <span asp-validation-for="LinkedinUrl" class="text-danger small"></span>
+                </div>
+                <div class="col-md-6">
+                    <label class="form-label-custom"><i class="bi bi-instagram"></i> Instagram</label>
+                    <input asp-for="InstagramUrl" class="form-control-custom" placeholder="https://instagram.com/kullanici" />
+                    <span asp-validation-for="InstagramUrl" class="text-danger small"></span>
+                </div>
+                <div class="col-md-6">
+                    <label class="form-label-custom"><i class="bi bi-youtube"></i> YouTube</label>
+                    <input asp-for="YoutubeUrl" class="form-control-custom" placeholder="https://youtube.com/@@kanal" />
+                    <span asp-validation-for="YoutubeUrl" class="text-danger small"></span>
+                </div>
+
+                <div class="col-12 d-flex justify-content-end gap-2">
+                    <a href="/Admin/Contact/ContactList" class="btn-pastel-secondary" style="padding: 8px 14px;">Vazgeç</a>
+                    <button type="submit" class="btn-pastel-primary" style="padding: 8px 20px;">
+                        <i class="bi bi-check-lg"></i>
+                        <span>Kaydet</span>
+                    </button>
+                </div>
+            </div>
+        </form>
+    </div>
+
+</main>

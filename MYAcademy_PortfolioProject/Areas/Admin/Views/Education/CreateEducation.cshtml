@@ -1,0 +1,52 @@
+﻿@model Education
+
+@{
+    ViewData["Title"] = "CreateEducation";
+    Layout = "~/Areas/Admin/Views/AdminLayout/Index.cshtml";
+}
+
+<main class="page-content-area">
+
+    <div class="content-header-row">
+        <div>
+            <h1 class="page-title">Yeni Eğitim Ekle</h1>
+        </div>
+        <div class="header-actions">
+            <a href="/Admin/Education/EducationList" class="btn-pastel-secondary">
+                <i class="bi bi-arrow-left"></i>
+                <span>Listeye Dön</span>
+            </a>
+        </div>
+    </div>
+
+    <div class="side-drawer-card">
+        <form method="post">
+            <div class="row g-3">
+                <div class="col-md-6">
+                    <label class="form-label-custom">Başlık</label>
+                    <input type="text" asp-for="Title" class="form-control-custom" placeholder="Örn: Lisans — Bilgisayar Mühendisliği" />
+                </div>
+                <div class="col-md-6">
+                    <label class="form-label-custom">Kurum</label>
+                    <input type="text" asp-for="Institution" class="form-control-custom" placeholder="Örn: Trakya Üniversitesi (boş bırakılabilir)" />
+                </div>
+                <div class="col-md-6">
+                    <label class="form-label-custom">Rozet</label>
+                    <input type="text" asp-for="Badge" class="form-control-custom" placeholder="Örn: Mezuniyet, Akademik" />
+                </div>
+                <div class="col-12">
+                    <label class="form-label-custom">Açıklama</label>
+                    <textarea asp-for="Description" class="form-control-custom" rows="3"></textarea>
+                </div>
+                <div class="col-12 d-flex justify-content-end gap-2">
+                    <a href="/Admin/Education/EducationList" class="btn-pastel-secondary" style="padding: 8px 14px;">Vazgeç</a>
+                    <button type="submit" class="btn-pastel-primary" style="padding: 8px 20px;">
+                        <i class="bi bi-check-lg"></i>
+                        <span>Eğitimi Kaydet</span>
+                    </button>
+                </div>
+            </div>
+        </form>
+    </div>
+
+</main>

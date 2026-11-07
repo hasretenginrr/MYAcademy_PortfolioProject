@@ -1,0 +1,73 @@
+﻿@model MYAcademy_PortfolioProject.Entities.Experience
+
+@{
+    ViewData["Title"] = "UpdateExperience";
+    Layout = "~/Areas/Admin/Views/AdminLayout/Index.cshtml";
+
+    var types = new[] { "Tam Zamanlı", "Yarı Zamanlı", "Hibrit", "Uzaktan", "Stajyer" };
+}
+
+<main class="page-content-area">
+
+    <div class="content-header-row">
+        <div>
+            <h1 class="page-title">Deneyimi Güncelle</h1>
+            <p class="page-subtitle">#@Model.ExperienceId numaralı deneyim kaydını düzenleyin.</p>
+        </div>
+        <div class="header-actions">
+            <a href="/Admin/Experience/ExperienceList" class="btn-pastel-secondary">
+                <i class="bi bi-arrow-left"></i>
+                <span>Listeye Dön</span>
+            </a>
+        </div>
+    </div>
+
+    <div class="side-drawer-card">
+        <form method="post">
+            <input type="hidden" asp-for="ExperienceId" />
+
+            <div class="row g-3">
+                <div class="col-md-6">
+                    <label class="form-label-custom">Deneyim Başlığı <span class="required-star">*</span></label>
+                    <input asp-for="Title" class="form-control-custom" required />
+                </div>
+                <div class="col-md-6">
+                    <label class="form-label-custom">Şirket / Kurum Adı <span class="required-star">*</span></label>
+                    <input asp-for="CompanyName" class="form-control-custom" required />
+                </div>
+                <div class="col-md-6">
+                    <label class="form-label-custom">Çalışma Türü</label>
+                    <select name="CategoryName" class="form-control-custom">
+                        @foreach (var t in types)
+                        {
+                            <option value="@t" selected="@(t == Model.CategoryName)">@t</option>
+                        }
+                        @if (!string.IsNullOrEmpty(Model.CategoryName) && !types.Contains(Model.CategoryName))
+                        {
+                            <option value="@Model.CategoryName" selected="selected">@Model.CategoryName</option>
+                        }
+                    </select>
+                </div>
+                <div class="col-md-6">
+                    <label class="form-label-custom">Durum</label>
+                    <select name="IsActive" class="form-control-custom">
+                        <option value="true" selected="@Model.IsActive">Aktif (Portfolyoda Göster)</option>
+                        <option value="false" selected="@(!Model.IsActive)">Pasif (Gizli)</option>
+                    </select>
+                </div>
+                <div class="col-12">
+                    <label class="form-label-custom">Açıklama / Görev Kapsamı</label>
+                    <textarea asp-for="Description" class="form-control-custom" rows="4"></textarea>
+                </div>
+                <div class="col-12 d-flex justify-content-end gap-2">
+                    <a href="/Admin/Experience/ExperienceList" class="btn-pastel-secondary" style="padding: 8px 14px;">Vazgeç</a>
+                    <button type="submit" class="btn-pastel-primary" style="padding: 8px 20px;">
+                        <i class="bi bi-check-lg"></i>
+                        <span>Değişiklikleri Kaydet</span>
+                    </button>
+                </div>
+            </div>
+        </form>
+    </div>
+
+</main>

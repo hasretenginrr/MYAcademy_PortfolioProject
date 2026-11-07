@@ -1,0 +1,135 @@
+﻿@model List<Contact>
+
+<section id="contact">
+    <div class="container">
+        <div class="row gy-5">
+            <!-- Left Column: Contact Info -->
+            <div class="col-lg-5 reveal-on-scroll">
+                <div class="eyebrow-badge">
+                    <i class="bi bi-envelope-paper-fill"></i> İLETİŞİME GEÇELİM
+                </div>
+
+                @foreach (var item in Model)
+                {
+                    <h2 class="section-title">
+                        @item.Title
+                    </h2>
+                    <p class="text-muted mb-4 fs-6">
+                        @item.Description
+                    </p>
+
+                    <div class="d-flex flex-column gap-3 mb-4">
+                        <div class="d-flex align-items-center gap-3 p-3 bg-white border rounded-3 shadow-sm">
+                            <div class="skill-icon-box mb-0" style="width: 44px; height: 44px; background: var(--bg-secondary);">
+                                <i class="bi bi-envelope"></i>
+                            </div>
+                            <div>
+                                <div class="text-muted small">E-posta</div>
+                                <div class="fw-semibold">@item.Email</div>
+                            </div>
+                        </div>
+
+                        <div class="d-flex align-items-center gap-3 p-3 bg-white border rounded-3 shadow-sm">
+                            <div class="skill-icon-box mb-0" style="width: 44px; height: 44px; background: var(--bg-secondary);">
+                                <i class="bi bi-telephone"></i>
+                            </div>
+                            <div>
+                                <div class="text-muted small">Telefon</div>
+                                <div class="fw-semibold">@item.PhoneNumber</div>
+                            </div>
+                        </div>
+
+                        <div class="d-flex align-items-center gap-3 p-3 bg-white border rounded-3 shadow-sm">
+                            <div class="skill-icon-box mb-0" style="width: 44px; height: 44px; background: var(--bg-secondary);">
+                                <i class="bi bi-geo-alt"></i>
+                            </div>
+                            <div>
+                                <div class="text-muted small">Konum</div>
+                                <div class="fw-semibold">@item.Location</div>
+                            </div>
+                        </div>
+                    </div>
+                }
+
+                <!-- Social links (veritabanından) -->
+                @{
+                    var social = Model.FirstOrDefault();
+                }
+                @if (social != null && (!string.IsNullOrWhiteSpace(social.LinkedinUrl) || !string.IsNullOrWhiteSpace(social.GithubUrl)
+                     || !string.IsNullOrWhiteSpace(social.InstagramUrl) || !string.IsNullOrWhiteSpace(social.YoutubeUrl)))
+                {
+                    <div class="pt-2">
+                        <div class="text-muted small font-heading fw-semibold mb-2">Sosyal Ağlar:</div>
+                        <div class="d-flex gap-2">
+                            @if (!string.IsNullOrWhiteSpace(social.LinkedinUrl))
+                            {
+                                <a href="@social.LinkedinUrl" target="_blank" rel="noopener noreferrer" class="social-pill" title="LinkedIn"><i class="bi bi-linkedin"></i></a>
+                            }
+                            @if (!string.IsNullOrWhiteSpace(social.GithubUrl))
+                            {
+                                <a href="@social.GithubUrl" target="_blank" rel="noopener noreferrer" class="social-pill" title="GitHub"><i class="bi bi-github"></i></a>
+                            }
+                            @if (!string.IsNullOrWhiteSpace(social.InstagramUrl))
+                            {
+                                <a href="@social.InstagramUrl" target="_blank" rel="noopener noreferrer" class="social-pill" title="Instagram"><i class="bi bi-instagram"></i></a>
+                            }
+                            @if (!string.IsNullOrWhiteSpace(social.YoutubeUrl))
+                            {
+                                <a href="@social.YoutubeUrl" target="_blank" rel="noopener noreferrer" class="social-pill" title="YouTube"><i class="bi bi-youtube"></i></a>
+                            }
+                        </div>
+                    </div>
+                }
+            </div>
+
+            <!-- Right Column: Form -->
+            <div class="col-lg-7 ps-lg-5 reveal-on-scroll">
+                <div class="bg-white p-4 p-md-5 rounded-4 border shadow-sm">
+
+                    @if (TempData["ContactSuccess"] != null)
+                    {
+                        <div class="alert alert-success small py-2">
+                            <i class="bi bi-check-circle me-1"></i> @TempData["ContactSuccess"]
+                        </div>
+                    }
+                    @if (TempData["ContactError"] != null)
+                    {
+                        <div class="alert alert-danger small py-2">
+                            <i class="bi bi-exclamation-circle me-1"></i> @TempData["ContactError"]
+                        </div>
+                    }
+
+                    <form method="post" asp-controller="Default" asp-action="SendMessage">
+                        <div class="row g-3">
+                            <div class="col-md-6">
+                                <label for="fullName" class="form-label small fw-semibold">Adınız Soyadınız *</label>
+                                <input type="text" name="SenderName" class="form-control form-control-custom" id="fullName" placeholder="Örn: Ahmet Yılmaz" maxlength="80" required>
+                            </div>
+                            <div class="col-md-6">
+                                <label for="emailAddr" class="form-label small fw-semibold">E-posta Adresiniz *</label>
+                                <input type="email" name="SenderEmail" class="form-control form-control-custom" id="emailAddr" placeholder="ad@ornek.com" required>
+                            </div>
+                            <div class="col-12">
+                                <label for="subject" class="form-label small fw-semibold">Konu</label>
+                                <input type="text" name="Subject" class="form-control form-control-custom" id="subject" placeholder="Örn: Kurumsal .NET Eğitimi veya Danışmanlık" maxlength="150">
+                            </div>
+                            <div class="col-12">
+                                <label for="message" class="form-label small fw-semibold">Mesajınız *</label>
+                                <textarea name="MessageDetail" class="form-control form-control-custom" id="message" rows="5" placeholder="Projeniz veya sorunuz hakkında detayları paylaşın..." maxlength="2000" required></textarea>
+                            </div>
+                            <div class="col-12 pt-2">
+                                <button type="submit" class="btn-sage w-100 justify-content-center py-3 fs-6">
+                                    <i class="bi bi-send-fill"></i>
+                                    <span>Mesajımı Gönder</span>
+                                </button>
+                                <div class="text-muted text-center small mt-3" style="font-size: 0.78rem;">
+                                    <i class="bi bi-shield-check me-1"></i> Gönderilen bilgiler gizlilik ilkeleri doğrultusunda korunmaktadır.
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>

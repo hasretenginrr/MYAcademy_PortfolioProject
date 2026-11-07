@@ -1,0 +1,73 @@
+﻿@model List<Project>
+
+@{
+    var defaultImage = "https://lh3.googleusercontent.com/aida-public/AB6AXuD1gZJs_U2YiOQIR5mnZfZQhk69l0J1t4KX1skTA1nf6ScbSR2jKax_uA0cjYpML1P329_5ob3neM5V6FA8UG-h5TVzdc-lG9TtWsrgwuUNRZYKyLPchpomRHp4KxTdXS-Q9aE698Qj3JKm_sujki7qvlEwyF6uVSEWbd99t86o8fF3p2kVXJ8-p4lsR-p0GFzkNNc0KRVhgQNx1bTY63Cc3VQiPHywioukY4cwSNcLnrBpzDGhlk23";
+}
+
+<section id="projects">
+    <div class="container">
+        <div class="d-flex flex-column flex-md-row justify-content-between align-items-md-end mb-4 gap-3 reveal-on-scroll">
+            <div>
+                <div class="eyebrow-badge">
+                    <i class="bi bi-folder-check"></i> SEÇİLMİŞ ÇALIŞMALAR
+                </div>
+                <h2 class="section-title mb-1">
+                    Fikirden Ürüne Dönüşen Projeler
+                </h2>
+                <p class="section-description mb-0">
+                    Öğrenme, üretme ve problem çözme süreçlerimin birer yansıması olan projelerimden bazıları.
+                </p>
+            </div>
+
+            <!-- Filter Buttons -->
+            <div class="d-flex flex-wrap gap-2" id="projectFilters">
+                <button class="filter-btn active" data-filter="all">Tümü</button>
+                @foreach (var category in Model.Where(x => x.Category != null).Select(x => x.Category).DistinctBy(c => c.CategoryId))
+                {
+                    <button class="filter-btn" data-filter="|@category.CategoryId|">@category.CategoryName</button>
+                }
+            </div>
+        </div>
+
+        <!-- Project Grid -->
+        <div class="row g-4" id="projectGrid">
+            @foreach (var item in Model)
+            {
+                <div class="col-lg-6 project-item reveal-on-scroll" data-category="|@item.CategoryId|">
+                    <div class="project-card">
+                        <div class="project-thumb-wrap">
+                            <img src="@(string.IsNullOrEmpty(item.ImageUrl) ? defaultImage : item.ImageUrl)" alt="@item.ProjectTitle" class="project-thumb-img">
+                            <span class="project-category-tag">@item.Category?.CategoryName</span>
+                        </div>
+                        <div class="project-body">
+                            <h3 class="h4 fw-bold mb-2">@item.ProjectTitle</h3>
+                            <p class="text-muted small mb-4 flex-grow-1">
+                                @item.Description
+                            </p>
+
+                            @if (!string.IsNullOrWhiteSpace(item.Technologies))
+                            {
+                                <div class="mb-4">
+                                    @foreach (var tech in item.Technologies.Split(',', StringSplitOptions.RemoveEmptyEntries | StringSplitOptions.TrimEntries))
+                                    {
+                                        <span class="tech-badge">@tech</span>
+                                    }
+                                </div>
+                            }
+
+                            @if (!string.IsNullOrEmpty(item.ProjectUrl))
+                            {
+                                <div class="d-flex align-items-center justify-content-between pt-3 border-top">
+                                    <a href="@item.ProjectUrl" target="_blank" rel="noopener noreferrer" class="btn-sage btn-sm">
+                                        <span>Projeyi İncele</span>
+                                        <i class="bi bi-arrow-up-right"></i>
+                                    </a>
+                                </div>
+                            }
+                        </div>
+                    </div>
+                </div>
+            }
+        </div>
+    </div>
+</section>

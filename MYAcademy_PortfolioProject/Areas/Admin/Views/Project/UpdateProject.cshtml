@@ -1,0 +1,76 @@
+﻿@model Project
+
+@{
+    ViewData["Title"] = "UpdateProject";
+    Layout = "~/Areas/Admin/Views/AdminLayout/Index.cshtml";
+}
+
+<main class="page-content-area">
+
+    <div class="content-header-row">
+        <div>
+            <h1 class="page-title">Proje Güncelle</h1>
+        </div>
+        <div class="header-actions">
+            <a href="/Admin/Project/ProjectList" class="btn-pastel-secondary">
+                <i class="bi bi-arrow-left"></i>
+                <span>Listeye Dön</span>
+            </a>
+        </div>
+    </div>
+
+    <div class="side-drawer-card">
+        <form method="post" enctype="multipart/form-data">
+            <input type="hidden" asp-for="ProjectId" />
+
+            <div class="row g-3">
+                <div class="col-md-6">
+                    <label class="form-label-custom">Proje Adı</label>
+                    <input type="text" asp-for="ProjectTitle" class="form-control-custom" />
+                    <span asp-validation-for="ProjectTitle" class="text-danger small"></span>
+                </div>
+                <div class="col-md-6">
+                    <label class="form-label-custom">Kategori</label>
+                    <select asp-for="CategoryId" asp-items="@((List<SelectListItem>)ViewBag.Categories)" class="form-control-custom"></select>
+                </div>
+                <div class="col-12">
+                    <label class="form-label-custom">Açıklama</label>
+                    <textarea asp-for="Description" class="form-control-custom" rows="4"></textarea>
+                    <span asp-validation-for="Description" class="text-danger small"></span>
+                </div>
+                <div class="col-md-6">
+                    <label class="form-label-custom">Teknolojiler (virgülle ayırın)</label>
+                    <input type="text" asp-for="Technologies" class="form-control-custom" />
+                </div>
+                <div class="col-md-6">
+                    <label class="form-label-custom">Proje Linki (GitHub)</label>
+                    <input type="text" asp-for="ProjectUrl" class="form-control-custom" />
+                    <span asp-validation-for="ProjectUrl" class="text-danger small"></span>
+                </div>
+                <div class="col-md-6">
+                    <label class="form-label-custom">Yeni Görsel (boş bırakırsanız mevcut görsel korunur)</label>
+                    <input type="file" name="imageFile" accept=".jpg,.jpeg,.png,.webp" class="form-control-custom" />
+                    <span asp-validation-for="ImageUrl" class="text-danger small"></span>
+                    @if (!string.IsNullOrEmpty(Model.ImageUrl))
+                    {
+                        <img src="@Model.ImageUrl" alt="" class="mt-2" style="height:70px; border-radius:8px; object-fit:cover;" />
+                    }
+                </div>
+                <div class="col-md-6 d-flex align-items-end">
+                    <div class="form-check form-switch">
+                        <input asp-for="IsActive" type="checkbox" class="form-check-input" />
+                        <label asp-for="IsActive" class="form-check-label">Aktif (sitede göster)</label>
+                    </div>
+                </div>
+                <div class="col-12 d-flex justify-content-end gap-2">
+                    <a href="/Admin/Project/ProjectList" class="btn-pastel-secondary" style="padding: 8px 14px;">Vazgeç</a>
+                    <button type="submit" class="btn-pastel-primary" style="padding: 8px 20px;">
+                        <i class="bi bi-check-lg"></i>
+                        <span>Değişiklikleri Kaydet</span>
+                    </button>
+                </div>
+            </div>
+        </form>
+    </div>
+
+</main>

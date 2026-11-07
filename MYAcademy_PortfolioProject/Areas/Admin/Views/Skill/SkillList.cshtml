@@ -1,0 +1,85 @@
+﻿@model List<Skill>
+
+@{
+    ViewData["Title"] = "SkillList";
+    Layout = "~/Areas/Admin/Views/AdminLayout/Index.cshtml";
+}
+
+<main class="page-content-area">
+
+    <div class="content-header-row">
+        <div>
+            <h1 class="page-title">Yeteneklerim</h1>
+        </div>
+        <div class="header-actions">
+            <a href="/Admin/Skill/CreateSkill" class="btn-pastel-primary">
+                <i class="bi bi-plus-circle-fill"></i>
+                <span>Yeni Ekle</span>
+            </a>
+        </div>
+    </div>
+
+  
+
+    <div class="data-table-card">
+        <div class="table-responsive-wrapper">
+            <table class="custom-admin-table">
+                <thead>
+                    <tr>
+                        <th style="width: 60px;">#</th>
+                        <th>Başlık</th>
+                        <th>Açıklama</th>
+                        <th>Seviye</th>
+                        <th>Yetenek Sayısı</th>
+                        <th style="width: 90px; text-align: center;">Güncelle</th>
+                        <th style="width: 90px; text-align: center;">Sil</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in Model)
+                    {
+                        <tr>
+                            <td class="col-id">#@item.SkillId.ToString("00")</td>
+                            <td>
+                                <div class="experience-title-cell">
+                                    <div class="exp-icon-bullet">
+                                        <i class="@item.IconUrl"></i>
+                                    </div>
+                                    <span class="exp-title-text">@item.Title</span>
+                                </div>
+                            </td>
+                            <td>
+                                <small class="text-muted d-block"
+                                       style="max-width:320px; white-space:nowrap; overflow:hidden; text-overflow:ellipsis;">
+                                    @item.Description
+                                </small>
+                            </td>
+                            <td style="min-width: 140px;">
+                                <div class="d-flex align-items-center gap-2">
+                                    <div class="progress flex-grow-1" style="height: 6px;">
+                                        <div class="progress-bar" role="progressbar"
+                                             style="width: @item.Level%; background-color: #6f8f7c;"
+                                             aria-valuenow="@item.Level" aria-valuemin="0" aria-valuemax="100"></div>
+                                    </div>
+                                    <small class="text-muted">%@item.Level</small>
+                                </div>
+                            </td>
+                            <td><span class="status-pill status-active">@item.SkillItems.Count</span></td>
+                            <td style="text-align: center;">
+                                <a href="/Admin/Skill/UpdateSkill/@item.SkillId" class="btn-action-icon btn-edit" title="Güncelle">
+                                    <i class="bi bi-pencil-square"></i>
+                                </a>
+                            </td>
+                            <td style="text-align: center;">
+                                <a href="/Admin/Skill/DeleteSkill/@item.SkillId" class="btn-action-icon btn-delete" title="Sil"
+                                   onclick="return confirm('Bu yeteneği silmek istediğinize emin misiniz? Yeteneğe bağlı tüm öğeler de silinir.');">
+                                    <i class="bi bi-trash3"></i>
+                                </a>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</main>

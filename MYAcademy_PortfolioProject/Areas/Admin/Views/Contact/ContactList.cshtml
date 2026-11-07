@@ -1,0 +1,90 @@
+﻿@model List<Contact>
+
+@{
+    ViewData["Title"] = "ContactList";
+    Layout = "~/Areas/Admin/Views/AdminLayout/Index.cshtml";
+}
+
+<main class="page-content-area">
+
+    <div class="content-header-row">
+        <div>
+            <h1 class="page-title">İletişim Bilgileri</h1>
+        </div>
+        <div class="header-actions">
+            <a href="/Admin/Contact/CreateContact" class="btn-pastel-primary">
+                <i class="bi bi-plus-circle-fill"></i>
+                <span>Yeni Ekle</span>
+            </a>
+        </div>
+    </div>
+
+    <div class="data-table-card">
+        <div class="table-responsive-wrapper">
+            <table class="custom-admin-table">
+                <thead>
+                    <tr>
+                        <th style="width: 60px;">#</th>
+                        <th>Başlık</th>
+                        <th>Açıklama</th>
+                        <th>Email</th>
+                        <th>Telefon</th>
+                        <th>Lokasyon</th>
+                        <th>Sosyal Ağlar</th>
+                        <th>Güncelle</th>
+                        <th>Sil</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in Model)
+                    {
+                        <tr>
+                            <td class="col-id">@item.ContactId</td>
+                            <td><span class="exp-title-text">@item.Title</span></td>
+                            <td>@item.Description</td>
+                            <td>@item.Email</td>
+                            <td>@item.PhoneNumber</td>
+                            <td><span class="work-type-badge">@item.Location</span></td>
+                            <td>
+                                <div class="d-flex gap-2 fs-5">
+                                    @if (!string.IsNullOrWhiteSpace(item.GithubUrl))
+                                    {
+                                        <a href="@item.GithubUrl" target="_blank" rel="noopener noreferrer" title="GitHub" class="text-secondary"><i class="bi bi-github"></i></a>
+                                    }
+                                    @if (!string.IsNullOrWhiteSpace(item.LinkedinUrl))
+                                    {
+                                        <a href="@item.LinkedinUrl" target="_blank" rel="noopener noreferrer" title="LinkedIn" class="text-secondary"><i class="bi bi-linkedin"></i></a>
+                                    }
+                                    @if (!string.IsNullOrWhiteSpace(item.InstagramUrl))
+                                    {
+                                        <a href="@item.InstagramUrl" target="_blank" rel="noopener noreferrer" title="Instagram" class="text-secondary"><i class="bi bi-instagram"></i></a>
+                                    }
+                                    @if (!string.IsNullOrWhiteSpace(item.YoutubeUrl))
+                                    {
+                                        <a href="@item.YoutubeUrl" target="_blank" rel="noopener noreferrer" title="YouTube" class="text-secondary"><i class="bi bi-youtube"></i></a>
+                                    }
+                                    @if (string.IsNullOrWhiteSpace(item.GithubUrl) && string.IsNullOrWhiteSpace(item.LinkedinUrl)
+                                                                    && string.IsNullOrWhiteSpace(item.InstagramUrl) && string.IsNullOrWhiteSpace(item.YoutubeUrl))
+                                    {
+                                        <span class="text-muted small">-</span>
+                                    }
+                                </div>
+                            </td>
+                            <td>
+                                <a href="/Admin/Contact/UpdateContact/@item.ContactId" class="btn-action-icon btn-edit" title="Güncelle">
+                                    <i class="bi bi-pencil-square"></i>
+                                </a>
+                            </td>
+                            <td>
+                                <a href="/Admin/Contact/DeleteContact/@item.ContactId" class="btn-action-icon btn-delete" title="Sil"
+                                   onclick="return confirm('Bu iletişim bilgisini silmek istediğinize emin misiniz?');">
+                                    <i class="bi bi-trash3"></i>
+                                </a>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</main>

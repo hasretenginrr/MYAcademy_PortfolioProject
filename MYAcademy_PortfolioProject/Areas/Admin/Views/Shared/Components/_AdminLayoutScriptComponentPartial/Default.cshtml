@@ -1,0 +1,184 @@
+﻿<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+<script>
+    // Mobile Sidebar Toggle
+    const sidebar = document.getElementById('adminSidebar');
+    const sidebarToggle = document.getElementById('sidebarToggle');
+
+    if (sidebar && sidebarToggle) {
+        sidebarToggle.addEventListener('click', () => {
+            sidebar.classList.toggle('show-sidebar');
+        });
+
+        document.addEventListener('click', (e) => {
+            if (window.innerWidth <= 991.98) {
+                if (!sidebar.contains(e.target) && !sidebarToggle.contains(e.target)) {
+                    sidebar.classList.remove('show-sidebar');
+                }
+            }
+        });
+    }
+
+    // Navbar'daki "Hızlı Ekle" butonu: Deneyim sayfasındaysak hızlı ekleme paneline kaydırır,
+    // değilse o sayfaya götürür.
+    function openAddModal() {
+        const panel = document.getElementById('quickCreate');
+        if (panel) {
+            panel.scrollIntoView({ behavior: 'smooth' });
+            const first = panel.querySelector('input');
+            if (first) first.focus();
+        } else {
+            window.location.href = '/Admin/Experience/ExperienceList#quickCreate';
+        }
+    }
+
+    // Çıkış butonu
+    const btnLogout = document.getElementById('btnLogout');
+    if (btnLogout) {
+        btnLogout.addEventListener('click', () => {
+            if (confirm('Yönetim panelinden çıkış yapmak istiyor musunuz?')) {
+                window.location.href = '/Default/Index';
+            }
+        });
+    }
+
+    // ---- Deneyim listesi (sadece #experienceTableBody olan sayfada çalışır) ----
+    const expBody = document.getElementById('experienceTableBody');
+    if (expBody) {
+        const selectAll = document.getElementById('selectAllCheckbox');
+        const searchInput = document.getElementById('tableSearchInput');
+        const statusFilter = document.getElementById('statusFilterSelect');
+        const sortSelect = document.getElementById('sortSelect');
+        const btnRefresh = document.getElementById('btnRefreshTable');
+        const btnExport = document.getElementById('btnExport');
+
+        const getRows = () => Array.from(expBody.querySelectorAll('tr'));
+
+        if (selectAll) {
+            selectAll.addEventListener('change', () => {
+                getRows().forEach(r => {
+                    const cb = r.querySelector('.row-select-checkbox');
+                    if (cb) cb.checked = selectAll.checked;
+                });
+            });
+        }
+
+        function filterTable() {
+            const query = (searchInput ? searchInput.value : '').toLowerCase().trim();
+            const statusVal = statusFilter ? statusFilter.value : 'all';
+
+            getRows().forEach(row => {
+                const title = (row.dataset.title || '').toLowerCase();
+                const company = (row.dataset.company || '').toLowerCase();
+                const status = row.dataset.status;
+
+                const matchesQuery = title.includes(query) || company.includes(query);
+                const matchesStatus = (statusVal === 'all') || (status === statusVal);
+
+                row.style.display = (matchesQuery && matchesStatus) ? '' : 'none';
+            });
+        }
+
+        if (searchInput) searchInput.addEventListener('input', filterTable);
+        if (statusFilter) statusFilter.addEventListener('change', filterTable);
+
+        if (sortSelect) {
+            sortSelect.addEventListener('change', () => {
+                const rows = getRows();
+                const v = sortSelect.value;
+
+                if (v === 'id-asc') {
+                    rows.sort((a, b) => parseInt(a.dataset.id) - parseInt(b.dataset.id));
+                } else if (v === 'id-desc') {
+                    rows.sort((a, b) => parseInt(b.dataset.id) - parseInt(a.dataset.id));
+                } else if (v === 'title-asc') {
+                    rows.sort((a, b) => (a.dataset.title || '').localeCompare(b.dataset.title || '', 'tr'));
+                } else if (v === 'company-asc') {
+                    rows.sort((a, b) => (a.dataset.company || '').localeCompare(b.dataset.company || '', 'tr'));
+                }
+
+                rows.forEach(r => expBody.appendChild(r));
+            });
+        }
+
+        if (btnRefresh) {
+            btnRefresh.addEventListener('click', () => {
+                if (searchInput) searchInput.value = '';
+                if (statusFilter) statusFilter.value = 'all';
+                filterTable();
+            });
+        }
+
+        // CSV'ye aktar (ekranda görünen satırlar)
+        if (btnExport) {
+            btnExport.addEventListener('click', () => {
+                const esc = v => '"' + String(v || '').replace(/"/g, '""') + '"';
+                const lines = [['ID', 'Başlık', 'Şirket', 'Çalışma Türü', 'Durum'].map(esc).join(',')];
+
+                getRows()
+                    .filter(r => r.style.display !== 'none')
+                    .forEach(r => {
+                        lines.push([r.dataset.id, r.dataset.title, r.dataset.company, r.dataset.type, r.dataset.status]
+                            .map(esc).join(','));
+                    });
+
+                const blob = new Blob(['\uFEFF' + lines.join('\r\n')], { type: 'text/csv;charset=utf-8;' });
+                const a = document.createElement('a');
+                a.href = URL.createObjectURL(blob);
+                a.download = 'deneyimler.csv';
+                document.body.appendChild(a);
+                a.click();
+                a.remove();
+                URL.revokeObjectURL(a.href);
+            });
+        }
+    }
+</script>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.10.8/dist/sweetalert2.all.min.js"></script>
+<script>
+    // ---- Silme onayı (tüm silme linkleri için) ----
+    // Sayfalardaki eski confirm() yerine devreye girer. Eski onay metnindeki uyarıyı (örn. "bağlı projeler de silinir") korur.
+    document.addEventListener('click', function (e) {
+        var link = e.target.closest('a.btn-delete, a[href*="/Delete"]');
+        if (!link) return;
+
+        e.preventDefault();
+        e.stopImmediatePropagation();
+
+        var oldText = (link.getAttribute('onclick') || '').match(/confirm\('(.*)'\)/);
+        var message = oldText ? oldText[1].replace(/\\'/g, "'") : 'Bu kayıt kalıcı olarak silinecek.';
+
+        Swal.fire({
+            title: 'Emin misiniz?',
+            text: message,
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonText: 'Evet, sil',
+            cancelButtonText: 'Vazgeç',
+            confirmButtonColor: '#c0564b',
+            reverseButtons: true
+        }).then(function (result) {
+            if (result.isConfirmed) {
+                window.location.href = link.href;
+            }
+        });
+    }, true);
+
+    // ---- Başarı / hata bildirimleri (sunucudan gelen TempData) ----
+    var Toast = Swal.mixin({
+        toast: true,
+        position: 'top-end',
+        showConfirmButton: false,
+        timer: 3500,
+        timerProgressBar: true
+    });
+
+    var serverSuccess = @Json.Serialize(TempData["Success"]);
+    var serverError = @Json.Serialize(TempData["Error"]);
+
+    if (serverSuccess) {
+        Toast.fire({ icon: 'success', title: serverSuccess });
+    }
+    if (serverError) {
+        Toast.fire({ icon: 'error', title: serverError, timer: 6000 });
+    }
+</script>

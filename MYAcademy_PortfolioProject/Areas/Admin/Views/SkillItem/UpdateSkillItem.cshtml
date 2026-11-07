@@ -1,0 +1,46 @@
+﻿@model SkillItem
+
+@{
+    ViewData["Title"] = "UpdateSkillItem";
+    Layout = "~/Areas/Admin/Views/AdminLayout/Index.cshtml";
+}
+
+<main class="page-content-area">
+
+    <div class="content-header-row">
+        <div>
+            <h1 class="page-title">Yetenek Öğesi Güncelle</h1>
+        </div>
+        <div class="header-actions">
+            <a href="/Admin/SkillItem/SkillItemList" class="btn-pastel-secondary">
+                <i class="bi bi-arrow-left"></i>
+                <span>Listeye Dön</span>
+            </a>
+        </div>
+    </div>
+
+    <div class="side-drawer-card">
+        <form method="post">
+            <input type="hidden" asp-for="SkillItemId" />
+
+            <div class="row g-3">
+                <div class="col-md-6">
+                    <label class="form-label-custom">Öğe Adı</label>
+                    <input type="text" asp-for="SkillItemTitle" class="form-control-custom" />
+                </div>
+                <div class="col-md-6">
+                    <label class="form-label-custom">Bağlı Olduğu Yetenek</label>
+                    <select asp-for="SkillId" asp-items="@((List<SelectListItem>)ViewBag.Skills)" class="form-control-custom"></select>
+                </div>
+                <div class="col-12 d-flex justify-content-end gap-2">
+                    <a href="/Admin/SkillItem/SkillItemList" class="btn-pastel-secondary" style="padding: 8px 14px;">Vazgeç</a>
+                    <button type="submit" class="btn-pastel-primary" style="padding: 8px 20px;">
+                        <i class="bi bi-check-lg"></i>
+                        <span>Değişiklikleri Kaydet</span>
+                    </button>
+                </div>
+            </div>
+        </form>
+    </div>
+
+</main>

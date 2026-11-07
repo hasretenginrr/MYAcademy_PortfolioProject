@@ -1,0 +1,63 @@
+﻿
+@model List<About>
+
+    @foreach (var item in Model)
+{
+    <section id="about" class="bg-white border-top border-bottom">
+        <div class="container">
+            <div class="row align-items-center gy-5">
+                <!-- Left Column: Portrait and visual composition -->
+                <div class="col-lg-5 reveal-on-scroll">
+                    <div class="about-img-wrap">
+                        <img src="@item.ImageUrl" alt="Hasret Enginer portre" referrerpolicy="no-referrer" class="w-100" style="height: 540px; object-fit: cover; object-position: center top;">
+                        <div class="p-3 bg-light border-top d-flex align-items-center justify-content-between">
+                            <span class="small text-muted font-heading">Hasret Nisa Enginer, İstanbul</span>
+                            <span class="badge bg-secondary-subtle text-dark fw-medium">Junior Developer</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Right Column: Story & Stats -->
+                <div class="col-lg-7 ps-lg-5 reveal-on-scroll">
+                    <div class="eyebrow-badge">
+                        <i class="bi bi-person-lines-fill"></i> BENİ TANIYIN
+                    </div>
+                    <h2 class="section-title">
+                        @item.Title
+                    </h2>
+                    <div class="text-muted fs-5 mb-4 lh-base">
+                        <p class="mb-3">
+                           @item.Description
+                        </p>
+                    </div>
+
+                    <!-- Statistics -->
+                    <div class="row g-4 pt-2 pb-4 border-top border-bottom mb-4">
+                        <div class="col-4">
+                            <div class="stat-number">@item.ExperienceYears</div>
+                            <div class="stat-label">Yıl Deneyim</div>
+                        </div>
+                        <div class="col-4">
+                            <div class="stat-number">@item.CourseCount</div>
+                            <div class="stat-label">Eğitim / Kurs</div>
+                        </div>
+                        <div class="col-4">
+                            <div class="stat-number">@item.CertificateCount</div>
+                            <div class="stat-label">Sertifika</div>
+                        </div>
+                    </div>
+
+                    <div class="d-flex align-items-center gap-3">
+                        <a href="@item.CvUrl" class="btn-sage" onclick="alert('Özgeçmiş PDF dosyası hazırlandı.'); return false;">
+                            <i class="bi bi-file-earmark-pdf"></i>
+                            <span>Özgeçmişimi İncele</span>
+                        </a>
+                        <a href="#contact" class="btn-secondary-custom">
+                            <span>Bana Ulaşın</span>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+}
